@@ -284,6 +284,10 @@ def GetHemeLbCompileFlags():
         flags.append('-Dxdr_uint32_t=xdr_u_int32_t')
         flags.append('-Dxdr_uint64_t=xdr_u_int64_t')
     return flags
+
+def AddVTKVersionToLibNames(vtkLibBaseNames):
+    vtkMajor, vtkMinor = GetVtkVersion()
+    return [lib + '-{}.{}'.format(vtkMajor, vtkMinor) for lib in vtkLibBaseNames]
     
 if __name__ == "__main__":
     # numpy, vtk
@@ -296,7 +300,8 @@ if __name__ == "__main__":
         vtkIncludeDir = LibToInclude(vtkLibDir)
     include_dirs = [vtkIncludeDir, HemeLbDir, BoostDir]
     
-    libraries = ['CGAL', 'gmp', 'vtkCommonCore-8.1', 'vtkCommonDataModel-8.1', 'vtkFiltersGeneral-8.1', 'vtkFiltersSources-8.1']
+    vtkLibBaseNames = ['vtkCommonCore', 'vtkCommonDataModel', 'vtkFiltersGeneral', 'vtkFiltersSources']
+    libraries = ['CGAL', 'gmp'] + AddVTKVersionToLibNames(vtkLibBaseNames)
     library_dirs = [vtkLibDir]
     extra_compile_args = ['-std=c++11'] + GetVtkCompileFlags(vtkLibDir) + GetHemeLbCompileFlags()
     extra_link_args = []
