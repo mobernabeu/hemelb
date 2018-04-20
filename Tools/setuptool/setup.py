@@ -296,10 +296,10 @@ if __name__ == "__main__":
         vtkIncludeDir = LibToInclude(vtkLibDir)
     include_dirs = [vtkIncludeDir, HemeLbDir, BoostDir]
     
-    libraries = []
-    library_dirs = []
+    libraries = ['CGAL', 'gmp', 'vtkCommonCore-8.1', 'vtkCommonDataModel-8.1', 'vtkFiltersGeneral-8.1', 'vtkFiltersSources-8.1']
+    library_dirs = [vtkLibDir]
     extra_compile_args = ['-std=c++11'] + GetVtkCompileFlags(vtkLibDir) + GetHemeLbCompileFlags()
-    extra_link_args = ['-lCGAL', '-lgmp', '-lvtkCommonCore-8.1', '-lvtkCommonDataModel-8.1', '-lvtkFiltersGeneral-8.1', '-lvtkFiltersSources-8.1']
+    extra_link_args = []
     
     # Create the list of extension modules
     ext_modules = []
